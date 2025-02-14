@@ -65,12 +65,7 @@ app.use((error, req, res, next) => {
 /**
  * Start Express server.
  */
-// app.listen(app.get('port'), () => {
-//   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
-//   console.log('  Press CTRL-C to stop\n');
-// });
-
-
-app.listen(3000, '159.89.234.192', () => {
-    console.log(`Server running on http://159.89.234.192:3000`);
+app.listen(app.get('port'), () => {
+  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+  console.log('  Press CTRL-C to stop\n');
 });
