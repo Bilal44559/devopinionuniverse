@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Email Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .footer {
+            background-color: #f1f1f1;
+            color: #333;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header, .content, .footer {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Welcome to Opinion Universe</h1>
+    </div>
+    <div class="content">
+        <p>Dear User,</p>
+        <p>Thank you for subscribing to our newsletter. We are excited to have you on board and can't wait to keep you updated with the latest news and offers.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt, nisl eget hendrerit faucibus, urna velit tincidunt tortor, eget euismod erat lorem ac justo. Phasellus at eros vel quam consectetur aliquam at at leo. Sed aliquet fringilla sapien, nec laoreet arcu facilisis sit amet.</p>
+        <p>Best regards,</p>
+        <p>The Opinion Universe Team</p>
+    </div>
+    <div class="footer">
+        <p>© 2024 Your Company. All rights reserved.</p>
+        <p><a href="#" style="color: #007bff; text-decoration: none;">Unsubscribe</a></p>
+    </div>
+</div>
+
+</body>
+</html>
