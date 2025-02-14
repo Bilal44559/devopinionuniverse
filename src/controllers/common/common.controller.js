@@ -6,7 +6,7 @@ import axios from 'axios';
 import strip_tags from 'striptags';
 import crypto from 'crypto';
 import he from 'he';
-import cheerio from 'cheerio';
+// import cheerio from 'cheerio';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -312,114 +312,114 @@ export default {
         }
     },
 
-    fetchListenpad: async (req, res) => {
+    // fetchListenpad: async (req, res) => {
 
-        try {
-            const url = 'https://listenpad.com/zip/mpmoffers.php';
-            const network = 'ListenPad';
+    //     try {
+    //         const url = 'https://listenpad.com/zip/mpmoffers.php';
+    //         const network = 'ListenPad';
 
-            const response = await axios.get(url);
-            const data = response.data;
+    //         const response = await axios.get(url);
+    //         const data = response.data;
 
-            const $ = cheerio.load(data);
-            const resultArray = [];
+    //         const $ = cheerio.load(data);
+    //         const resultArray = [];
 
-            $('tr').each((index, element) => {
-                const rowData = [];
-                $(element).find('td').each((i, td) => {
-                    rowData.push($(td).text().trim());
-                });
-                resultArray.push(rowData);
-            });
+    //         $('tr').each((index, element) => {
+    //             const rowData = [];
+    //             $(element).find('td').each((i, td) => {
+    //                 rowData.push($(td).text().trim());
+    //             });
+    //             resultArray.push(rowData);
+    //         });
 
-            const offersfetched = resultArray;
+    //         const offersfetched = resultArray;
 
-            const newOfferIds = [];
-            const offers = [];
+    //         const newOfferIds = [];
+    //         const offers = [];
 
-            if (Array.isArray(offersfetched)) {
-                for (const [key, offer] of offersfetched.entries()) {
-                    if (key === 0) continue;
+    //         if (Array.isArray(offersfetched)) {
+    //             for (const [key, offer] of offersfetched.entries()) {
+    //                 if (key === 0) continue;
 
-                    if (offer[2].includes("Non Incentive") || offer[2].includes("NO Incentive")) {
-                        continue;
-                    }
+    //                 if (offer[2].includes("Non Incentive") || offer[2].includes("NO Incentive")) {
+    //                     continue;
+    //                 }
 
-                    const name = offer[2].trim().replace(/<\/?[^>]+>/gi, '');
-                    const desc = offer[6].trim().replace(/<\/?[^>]+>/gi, '').replace(/<br>/gi, ' ');
-                    const country = offer[3];
-                    const payout = offer[4].replace('$', '');
-                    const previewPath = await saveImage(offer[5], offer[1], 'listenPad');
+    //                 const name = offer[2].trim().replace(/<\/?[^>]+>/gi, '');
+    //                 const desc = offer[6].trim().replace(/<\/?[^>]+>/gi, '').replace(/<br>/gi, ' ');
+    //                 const country = offer[3];
+    //                 const payout = offer[4].replace('$', '');
+    //                 const previewPath = await saveImage(offer[5], offer[1], 'listenPad');
 
-                    newOfferIds.push(offer[1]);
-                    offers.push({
-                        offer_id: offer[1],
-                        name,
-                        network,
-                        active: 1,
-                        limit: 0,
-                        mobile: 0,
-                        browsers: 'ALL',
-                        // ua: 'All',
-                        // url: offer[5],
-                        description: desc,
-                        countries: country,
-                        categories: '',
-                        credits: payout,
-                        epc: 0.1,
-                        preview: offer[5],
-                        image_url: previewPath,
-                    });
-                };
+    //                 newOfferIds.push(offer[1]);
+    //                 offers.push({
+    //                     offer_id: offer[1],
+    //                     name,
+    //                     network,
+    //                     active: 1,
+    //                     limit: 0,
+    //                     mobile: 0,
+    //                     browsers: 'ALL',
+    //                     // ua: 'All',
+    //                     // url: offer[5],
+    //                     description: desc,
+    //                     countries: country,
+    //                     categories: '',
+    //                     credits: payout,
+    //                     epc: 0.1,
+    //                     preview: offer[5],
+    //                     image_url: previewPath,
+    //                 });
+    //             };
 
-                const fetchedOfferIds = [];
-                for (let i = 0; i < offers.length; i++) {
-                    fetchedOfferIds.push(Number(offers[i].offer_id));
+    //             const fetchedOfferIds = [];
+    //             for (let i = 0; i < offers.length; i++) {
+    //                 fetchedOfferIds.push(Number(offers[i].offer_id));
 
-                }
-                const tableOffersData = await Offers.find();
+    //             }
+    //             const tableOffersData = await Offers.find();
 
-                const existingOfferIds = [];
-                for (let i = 0; i < tableOffersData.length; i++) {
-                    existingOfferIds.push(tableOffersData[i].offer_id);
+    //             const existingOfferIds = [];
+    //             for (let i = 0; i < tableOffersData.length; i++) {
+    //                 existingOfferIds.push(tableOffersData[i].offer_id);
 
-                }
+    //             }
 
-                let newOffers = [];
-                let existingOffers = [];
+    //             let newOffers = [];
+    //             let existingOffers = [];
 
-                for (let offer of offers) {
+    //             for (let offer of offers) {
 
-                    if (existingOfferIds.includes(Number(offer.offer_id))) {
-                        existingOffers.push(offer);
-                        continue;
-                    } else {
+    //                 if (existingOfferIds.includes(Number(offer.offer_id))) {
+    //                     existingOffers.push(offer);
+    //                     continue;
+    //                 } else {
 
-                        newOffers.push(offer);
-                    }
-                }
-                if (newOffers.length) {
-                    await Offers.insertMany(newOffers);
-                }
+    //                     newOffers.push(offer);
+    //                 }
+    //             }
+    //             if (newOffers.length) {
+    //                 await Offers.insertMany(newOffers);
+    //             }
 
-                const offersToUpdate = existingOfferIds.filter(offer_id => !fetchedOfferIds.includes(offer_id));
-                await Offers.updateMany({ offer_id: { $in: offersToUpdate } }, { deleted_bit: 1 });
+    //             const offersToUpdate = existingOfferIds.filter(offer_id => !fetchedOfferIds.includes(offer_id));
+    //             await Offers.updateMany({ offer_id: { $in: offersToUpdate } }, { deleted_bit: 1 });
 
-                console.log(`New offers saved: ${newOffers.length}`);
-                console.log(`Existing offers skipped: ${existingOffers.length}`);
-                console.log(`Offers marked as inactive: ${offersToUpdate.length}`);
+    //             console.log(`New offers saved: ${newOffers.length}`);
+    //             console.log(`Existing offers skipped: ${existingOffers.length}`);
+    //             console.log(`Offers marked as inactive: ${offersToUpdate.length}`);
 
-                res.status(StatusCodes.OK).json({ newOffers, existingOffers, offersToUpdate });
-            } else {
-                res.status(StatusCodes.OK).json({ message: 'No offers fetched' });
-            }
+    //             res.status(StatusCodes.OK).json({ newOffers, existingOffers, offersToUpdate });
+    //         } else {
+    //             res.status(StatusCodes.OK).json({ message: 'No offers fetched' });
+    //         }
 
-        } catch (error) {
-            console.error(`Error processing offers:`, error.message);
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error processing offers' });
-        }
+    //     } catch (error) {
+    //         console.error(`Error processing offers:`, error.message);
+    //         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Error processing offers' });
+    //     }
 
-    },
+    // },
 
     torox: async (req, res) => {
         try {
